@@ -2,7 +2,7 @@
 ## inverse. Remark: matrix supplied needs to be invertible.
 ##
 ## cacheSolve - computes the inverse of the special matrix generated with
-## makeCacheMatrix. If the cache is calculated and the special matrix
+## makeCacheMatrix. If the cache has already been calculated and the special matrix
 ## has not been changes, the cacheSolve retrieves the cached inverse value.
 
 ## Function makeCacheMatrix contains a function to
@@ -26,7 +26,7 @@ makeCacheMatrix <- function(x = matrix()) {
         # 3. set the inverse
         setinv <- function(inverse) inv <<- inverse
         # 4. get the inverse
-        getinv <- function() inverse
+        getinv <- function() inv
         
         # assemble a list of all the functions defined above
         list(set = set, get = get,
@@ -35,9 +35,28 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-## Function cacheSolve returns chached inverse if the original 
-## matrix has not changed
+## cacheSolve - calculates the inverse of the special
+## matrix supplied from the makeCacheMatrix function.
+## 1. check if the inverse has already been calculated.
+## If true, get the inverse from the cache and skip the
+## calculation. 
+## 2. If false, 3. calculates the inverse of the
+## matrix and 4. sets the value of the inverse in the cache with
+## the setinv function. 5. returns the newly calculated value.
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+        # 1. check if the inverse is calculated and cached
+        inv <- x$getinv()
+        if(!is.null(inv)) {
+                message("getting cached data")
+                return(inv)
+        }
+        # 2. not cached, place the matrix into data
+        data <- x$get()
+        # 3. calculate the inverse
+        inv <- solve(data, ...)
+        # 4. afterwards, cache the inverse
+        x$setinv(inv)
+        # finally, return the newly calculated inverse
+        inv
 }
