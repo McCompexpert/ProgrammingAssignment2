@@ -10,7 +10,7 @@
 ## 2. get the value of the matrix
 ## 3. set the value of the inverse
 ## 4. get the value of the inverse
-
+## 5. assemble a list of all the functions defined above
 
 makeCacheMatrix <- function(x = matrix()) {
         #set the inverse value to NULL
@@ -28,7 +28,7 @@ makeCacheMatrix <- function(x = matrix()) {
         # 4. get the inverse
         getinv <- function() inv
         
-        # assemble a list of all the functions defined above
+        # 5. assemble a list of all the functions defined above
         list(set = set, get = get,
              setinv = setinv,
              getinv = getinv)
@@ -57,6 +57,6 @@ cacheSolve <- function(x, ...) {
         inv <- solve(data, ...)
         # 4. afterwards, cache the inverse
         x$setinv(inv)
-        # finally, return the newly calculated inverse
+        # 5. finally, return the newly calculated inverse
         inv
 }
